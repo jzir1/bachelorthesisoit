@@ -1,4 +1,3 @@
-@"
 # Order-Independent Transparency: WebGL2 & WebGPU
 
 Bachelor's thesis project comparing five order-independent transparency (OIT) rendering techniques in real time, built from scratch in vanilla JavaScript with **no external rendering libraries** — the WebGL2/WebGPU pipelines, glTF binary (.glb) parser, and orbit camera controls are all hand-written.
