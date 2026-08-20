@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OIT Methods: WebGL & WebGPU</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 50%, #ff2a2d 0%, #020505 100%);
+    }
+    #canvas-container { width: 100vw; height: 100vh; }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      image-rendering: pixelated;
+      background-color: transparent;
+    }
+
+    #ui {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(0,0,0,0.75); color: white;
+      padding: 15px; font-family: sans-serif;
+      border-radius: 8px; display: flex; flex-direction: column; gap: 12px;
+      z-index: 10;
+    }
+    .ui-group { display: flex; flex-direction: column; gap: 4px; }
+    select { padding: 6px; background: #222; color: white; border: 1px solid #555; border-radius: 4px; }
+    .stats { display: flex; flex-direction: column; gap: 6px; margin-bottom: 5px; font-weight: bold; }
+    #fps      { color: #0f0; }
+    #gpuTime  { color: #0ff; }
+    #peelInfo { color: #ffaa00; font-weight: normal; font-size: 14px; }
+
+    /* Scale slider is hidden / greyed out for cube coverage scenes */
+    #scale-group { transition: opacity 0.2s; }
+    #scale-group.disabled { opacity: 0.35; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div id="ui">
+    <div><strong>Order-Independent Transparency</strong></div>
+
+    <div class="stats">
+      <div id="fps">FPS: 0</div>
+      <div id="gpuTime">GPU: -- ms</div>
+      <div id="peelInfo">Layers: --</div>
+    </div>
+
+    <div class="ui-group">
+      <label for="method-select">Render Method:</label>
+      <select id="method-select">
+        <option value="dp_oq">WebGL: DP OQ</option>
+        <option value="dual_dp_oq">WebGL: Dual DP OQ</option>
+        <option value="stochastic">WebGL: Stochastic OIT</option>
+        <option value="weighted">WebGL: Weighted Blended</option>
+        <option value="webgpu_ll">WebGPU: Linked List</option>
+      </select>
+    </div>
+
+    <div class="ui-group">
+      <label for="scene-select">Scene:</label>
+      <select id="scene-select">
+        <option value="spheres_mid">Spheres (Medium)</option>
+        <option value="spheres_high">Spheres (High)</option>
+        <optgroup label="Coverage benchmark (panels, 16 layers)">
+          <option value="cubes_25">Cubes (~25% Fill)</option>
+          <option value="cubes_50">Cubes (~50% Fill)</option>
+          <option value="cubes_75">Cubes (~75% Fill)</option>
+          <option value="cubes_100">Cubes (~100% Fill)</option>
+        </optgroup>
+        <option value="bunnies">Bunnies (Grid)</option>
+        <option value="Egyptian_Temple_1">Egyptian Temple 1</option>
+        <option value="Egyptian_Temple_2">Egyptian Temple 2</option>
+        <option value="Gas_Engine">Gas Engine</option>
+        <option value="Gearbox">Gearbox</option>
+        <option value="Hydrant">Hydrant</option>
+        <option value="Chapel">Chapel</option>
+        <option value="Suspension">Suspension</option>
+        <option value="Parthenon">Parthenon</option>
+      </select>
+    </div>
+
+    <div class="ui-group" id="scale-group">
+      <label for="scale-slider">Model Scale</label>
+      <input type="range" id="scale-slider" min="6" max="18" step="0.1" value="6.0">
+    </div>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
